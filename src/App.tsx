@@ -14,7 +14,7 @@ type Ings = string[];
 
 interface Order {
   name: string;
-  ingredeients: Ings;
+  ingredients: Ings;
 }
 
 function ClearChecked(arr: string[], el_id: string) {
@@ -63,7 +63,7 @@ export function App() {
           if (selection.length > 0 && customIngs.length > 0) {
             setOrders((prev) => [
               ...prev,
-              { name: selection, ingredeients: customIngs },
+              { name: selection, ingredients: customIngs },
             ]);
 
             setSelection('');
