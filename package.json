@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -11,6 +12,8 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "axios": "^0.27.2",
+    "craco-alias": "^3.0.1",
+    "msw": "^0.47.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -18,7 +21,8 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "d": "react-scripts start",
+    "d": "craco start",
+    "s": "cd server && npm run d",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
