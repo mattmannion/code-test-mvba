@@ -8,5 +8,8 @@
     "d": "nodemon",
     "b": "cd src && go build -o dist/server src/*.go",
     "r": "npm run b && cd src && ./server"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }

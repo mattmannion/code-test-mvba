@@ -30,14 +30,20 @@ export function App() {
   const [baseIngs, setBaseIngs] = useState<Ings>([]);
   const [customIngs, setCustomIngs] = useState<Ings>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:7890/api/pizza')
-      .then(({ data: { pizzas, ingredients } }) => {
-        setPizzas(pizzas);
-        setBaseIngs(ingredients.sort());
-      });
+    (async () => {
+      try {
+        const { data } = await axios.get('http://localhost:7890/api/pizza');
+        const { pizzas, ingredients } = data;
+
+        if (pizzas) setPizzas(pizzas);
+        if (Array.isArray(ingredients)) setBaseIngs(ingredients.sort());
+      } catch (error) {
+        setError('an error has occurred with the api');
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -46,7 +52,7 @@ export function App() {
         (_, i) =>
           document.getElementById('custom-ings-input-' + i) as HTMLInputElement
       )
-      .forEach((cb, i) => {
+      .forEach((cb) => {
         customIngs.forEach((ing) => {
           if (cb.name === ing) {
             cb.checked = true;
@@ -54,6 +60,8 @@ export function App() {
         });
       });
   }, [selection]);
+
+  if (error) return <div>{error}</div>;
 
   return (
     <div className='app'>
@@ -79,7 +87,7 @@ export function App() {
             <input
               id={'pizza-input-' + i}
               type='radio'
-              name='pizzas'
+              name={pizza}
               value={pizza}
               checked={selection === pizza}
               onChange={(e) => {
@@ -94,7 +102,7 @@ export function App() {
                   );
               }}
             />
-            <label htmlFor={pizza}>&nbsp;{pizza}</label>
+            <label htmlFor={'pizza-input-' + i}>&nbsp;{pizza}</label>
           </div>
         ))}
         <hr />
@@ -114,16 +122,20 @@ export function App() {
                     );
                 }}
               />
-              <label htmlFor={ing}>&nbsp;{ing}</label>
+              <label htmlFor={'custom-ings-input-' + i}>&nbsp;{ing}</label>
             </div>
           );
         })}
-        <button type='submit'>add to order</button>
+        <button name='add to order' type='submit'>
+          add to order
+        </button>
       </form>
       <div>
         orders:
         {orders.map((order, i) => (
-          <pre key={i}>{JSON.stringify(order, null, 2)}</pre>
+          <pre key={i} data-testid={'order-' + i}>
+            {JSON.stringify(order, null, 2)}
+          </pre>
         ))}
       </div>
     </div>
