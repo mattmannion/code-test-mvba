@@ -61,7 +61,12 @@ export function App() {
       });
   }, [selection]);
 
-  if (error) return <div>{error}</div>;
+  if (error)
+    return (
+      <div className='app' data-testid='error_msg'>
+        {error}
+      </div>
+    );
 
   return (
     <div className='app'>

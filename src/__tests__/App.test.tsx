@@ -2,9 +2,26 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { App } from 'src/App';
 import json from 'src/__mocks__/data/mock.data.json';
+import { server_mock } from 'src/__mocks__/server/server.mock';
+import { rest } from 'msw';
 
 describe('App Testing Suite', () => {
   beforeEach(() => render(<App />));
+
+  it('tests for api call error', async () => {
+    server_mock.use(
+      rest.get('http://localhost:7890/api/pizza', (req, res, ctx) =>
+        res.once(
+          ctx.status(404),
+          ctx.json({ message: 'Internal server error' })
+        )
+      )
+    );
+
+    render(<App />);
+
+    expect(await screen.findByTestId('error_msg')).toBeInTheDocument();
+  });
 
   it('tests the initial state of the rendered elements', async () => {
     for (const key of Object.keys(json.pizzas)) {
