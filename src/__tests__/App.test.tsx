@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { App } from 'src/App';
-import json from 'src/__mocks__/data/mock.data.json';
 import { server_mock } from 'src/__mocks__/server/server.mock';
 import { rest } from 'msw';
+import json from 'src/__mocks__/data/mock.data.json';
 
 describe('App Testing Suite', () => {
   beforeEach(() => render(<App />));
