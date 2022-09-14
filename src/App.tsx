@@ -26,10 +26,11 @@ function ClearChecked(arr: string[], el_id: string) {
 
 export function App() {
   const [pizzas, setPizzas] = useState<Pizzas>({} as Pizzas);
-  const [selection, setSelection] = useState<string>('');
   const [baseIngs, setBaseIngs] = useState<Ings>([]);
   const [customIngs, setCustomIngs] = useState<Ings>([]);
+
   const [orders, setOrders] = useState<Order[]>([]);
+  const [selection, setSelection] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
