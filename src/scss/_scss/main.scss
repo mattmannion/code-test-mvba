@@ -2,8 +2,169 @@
 @import '../base/typography';
 
 .app {
+  $transition-timer: 300ms;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   flex-flow: column;
+
+  width: 100%;
+  &__form {
+    display: grid;
+
+    width: 100%;
+  }
+
+  &__pizzas-title {
+    text-align: center;
+    background-color: green;
+  }
+
+  &__pizzas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+    padding: 1rem;
+
+    border-bottom: 1px solid black;
+  }
+
+  &__pizza {
+    color: black;
+    background-color: transparent;
+
+    padding-right: 1rem;
+    padding-left: 0.5rem;
+    border-radius: 10rem;
+
+    transition: background-color $transition-timer, color $transition-timer;
+
+    user-select: none;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background-color: black;
+    }
+
+    &--active {
+      color: white;
+      background-color: black;
+    }
+
+    & > {
+      input {
+        cursor: pointer;
+        display: none;
+      }
+    }
+
+    & > {
+      label {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__ings-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__ings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-top: 1rem;
+  }
+
+  &__ing {
+    margin-inline: 1rem;
+  }
+
+  &__submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 1rem;
+
+    border-bottom: 1px solid black;
+
+    & > button {
+      font-size: 2rem;
+
+      color: black;
+      background-color: green;
+
+      border: 1px solid black;
+      border-radius: 5rem;
+
+      padding: 0.25rem 1rem;
+
+      transition: background-color $transition-timer;
+
+      &:hover {
+        background-color: white;
+      }
+
+      &:active {
+        background-color: lightgray;
+      }
+    }
+  }
+
+  &__orders {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-flow: column;
+  }
+
+  &__pizza-cards {
+    display: flex;
+    justify-content: center;
+    flex-flow: wrap;
+
+    gap: 1rem;
+  }
+
+  &__pizza-card {
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+
+    flex-flow: column;
+
+    width: 40rem;
+    height: 24rem;
+
+    border: 1px solid black;
+  }
+
+  &__pizza-card-title {
+    background-color: green;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+
+    padding: 1rem 0;
+
+    width: 100%;
+  }
+
+  &__pizza-card-ings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+
+    width: 100%;
+  }
 }
