@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { LoadingEllipsis } from 'src/components/LoadingEllipsis';
 
 interface Pizzas {
   cheese: string[];
@@ -12,18 +13,18 @@ interface Pizzas {
 
 type Ings = string[];
 
-interface Order {
+type Order = {
   name: string;
   ingredients: Ings;
-}
+};
 
-interface PizzaCard {
+type PizzaCardProps = {
   name: string;
   order_num: number;
   ingredients: string[];
-}
+};
 
-function PizzaCard({ name, order_num, ingredients }: PizzaCard) {
+function PizzaCard({ name, order_num, ingredients }: PizzaCardProps) {
   return (
     <div className='app__pizza-card'>
       <div className='app__pizza-card-title'>
@@ -57,11 +58,15 @@ export function App() {
   const [selection, setSelection] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  // runs once to fetch data
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.get('http://localhost:7890/api/pizza');
         const { pizzas, ingredients } = data;
+
+        // simulated loading - will cause tests to fail.
+        // await new Promise((r) => setTimeout(r, 2000));
 
         if (pizzas) setPizzas(pizzas);
         if (Array.isArray(ingredients)) setBaseIngs(ingredients.sort());
@@ -71,6 +76,7 @@ export function App() {
     })();
   }, []);
 
+  // runs side effects on deps
   useEffect(() => {
     baseIngs
       .map(
@@ -96,7 +102,7 @@ export function App() {
       if (cb.checked) bg.classList.add('app__pizza--active');
       else bg.classList.remove('app__pizza--active');
     });
-  }, [selection]);
+  }, [selection, baseIngs, customIngs, pizzas]);
 
   if (error)
     return (
@@ -104,6 +110,14 @@ export function App() {
         {error}
       </div>
     );
+
+  if (!Object.keys(pizzas).length) {
+    return (
+      <div className='app' data-testid='app'>
+        <LoadingEllipsis />
+      </div>
+    );
+  }
 
   return (
     <div className='app'>
@@ -155,26 +169,24 @@ export function App() {
 
         <div className='app__ings-cont'>
           <div className='app__ings'>
-            {baseIngs.map((ing, i) => {
-              return (
-                <div key={i} className='app__ing'>
-                  <input
-                    id={'custom-ings-input-' + i}
-                    type='checkbox'
-                    name={ing}
-                    onChange={(e) => {
-                      if (e.target.checked)
-                        setCustomIngs((prev) => [...prev, ing].sort());
-                      else
-                        setCustomIngs((prev) =>
-                          prev.filter((item) => item !== ing).sort()
-                        );
-                    }}
-                  />
-                  <label htmlFor={'custom-ings-input-' + i}>&nbsp;{ing}</label>
-                </div>
-              );
-            })}
+            {baseIngs.map((ing, i) => (
+              <div key={i} className='app__ing'>
+                <input
+                  id={'custom-ings-input-' + i}
+                  type='checkbox'
+                  name={ing}
+                  onChange={(e) => {
+                    if (e.target.checked)
+                      setCustomIngs((prev) => [...prev, ing].sort());
+                    else
+                      setCustomIngs((prev) =>
+                        prev.filter((item) => item !== ing).sort()
+                      );
+                  }}
+                />
+                <label htmlFor={'custom-ings-input-' + i}>&nbsp;{ing}</label>
+              </div>
+            ))}
           </div>
         </div>
         <div className='app__submit-btn'>

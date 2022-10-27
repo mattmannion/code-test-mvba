@@ -34,6 +34,7 @@ func GetPizza(c *gin.Context) {
 			"mushrooms",
 			"tomatoes",
 			"black olives",
+			"Khris",
 		},
 	})
 }

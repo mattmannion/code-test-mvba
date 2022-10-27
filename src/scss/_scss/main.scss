@@ -1,8 +1,10 @@
 @import '../base/reset';
 @import '../base/typography';
 
+@import '../components/lds.ellipsis';
+
 .app {
-  $transition-timer: 300ms;
+  $transition-settings: 300ms ease-in-out;
 
   display: flex;
   justify-content: center;
@@ -41,7 +43,8 @@
     padding-left: 0.5rem;
     border-radius: 10rem;
 
-    transition: background-color $transition-timer, color $transition-timer;
+    transition: background-color $transition-settings,
+      color $transition-settings;
 
     user-select: none;
     cursor: pointer;
@@ -107,7 +110,7 @@
 
       padding: 0.25rem 1rem;
 
-      transition: background-color $transition-timer;
+      transition: background-color $transition-settings;
 
       &:hover {
         background-color: white;
